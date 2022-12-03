@@ -47,6 +47,22 @@ void gen(int row, int col, int last) {
     if (ans == LIMIT) {
         return;
     }
+
+    // calculate bounds
+    int minAddition = HEIGHT - row;
+    int maxAddition = (HEIGHT - row) + (HEIGHT - row - 1) / 2 * (WIDTH - 1);
+    if (get(last, 0) == UP) {
+        maxAddition += max(row - 1, WIDTH - row - 1);
+    } else if (get(last, 0) == LEFT) {
+        maxAddition += row - 1;
+    } else {
+        maxAddition += WIDTH - row - 1;
+    }
+    if (curLen + maxAddition < MIN_LENGTH || curLen + minAddition > MAX_LENGTH) {
+        // cut this branch
+        return;
+    }
+
     s[(row * WIDTH + col) * 2]++;
     ++curLen;
     if (row == HEIGHT - 1) {
@@ -89,3 +105,22 @@ int main() {
         curLen = 0;
     }
 }
+
+/*
+1 0 0 0 0 0
+1 0 0 0 0 0
+1 0 0 0 0 0
+1 0 0 0 0 0
+1 0 0 0 0 0
+1 0 0 0 0 0
+1 0 0 0 0 0
+1 0 0 0 0 0
+1 0 0 0 0 0
+1 0 0 0 0 0
+1 0 0 0 0 0
+1 0 0 0 0 0
+1 1 1 1 1 0
+0 0 0 0 1 0
+0 1 1 1 1 0
+0 1 0 0 0 0
+*/
